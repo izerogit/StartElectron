@@ -8,6 +8,7 @@
 </head>
 
 <body>
+    <div id="FileDialog" onclick="openFileDialog()">选择文件</div>
     <div id="app">
         <table>
             <thead>
@@ -29,27 +30,42 @@
 </body>
 <script src="../js/vue.js"></script>
 <script>
-    var xlsx = require("node-xlsx");
-    var fs = require('fs');
-    var excel = xlsx.parse("./" + "text.xlsx");
-    var vm = new Vue({
-        el: '#app',
-        data: {
-            head: excel[1].data[0],
-            bodys: excel[1].data.length,
-            datalist: excel[1].data
-        }
-    })
+    const electron = require('electron');
+    const {
+        dialog
+    } = electron.remote
 
-    var buffer = xlsx.build([{
-        name: 'sheet333',
-        data: excel[2].data
-    }]);
+    function openFileDialog() {
+        var filepath = dialog.showOpenDialog({
+            properties: ['openFile', 'multiSelections']
+        });
 
-    //将文件内容插入新的文件中
-    fs.writeFileSync('test1.xlsx', buffer, {
-        'flag': 'w'
-    });
+        console.log(filepath);
+        // var _xlsx = _app.GetRemoetxlsx();
+        var _xlsx = require("xlsx");
+        var workbook = _xlsx.readFile(filepath[0]);
+        console.log(workbook.Sheets["Sheet1"]);
+        var fs = require('fs');
+
+        // var vm = new Vue({
+        //     el: '#app',
+        //     data: {
+        //         head: workbook.Sheets["Sheet1"].data[0],
+        //         bodys: workbook.Sheets["Sheet1"].data.length,
+        //         datalist: workbook.Sheets["Sheet1"].data
+        //     }
+        // })
+
+        // var buffer = xlsx.build([{
+        //     name: 'sheet333',
+        //     data: excel[2].data
+        // }]);
+
+        // //将文件内容插入新的文件中
+        // fs.writeFileSync('test1.xlsx', buffer, {
+        //     'flag': 'w'
+        // });
+    }
 </script>
 
 </html>

@@ -9,6 +9,7 @@
 </head>
 
 <body>
+    <div id="FileDialog" onclick="openFileDialog()">选择文件</div>
     <div id="c1"></div>
     <script>
         var data = [{
@@ -78,5 +79,102 @@
 
 
 </body>
+
+<script>
+    const {
+        dialog
+    } = require('electron').remote
+
+    function openFileDialog() {
+        console.log(dialog.showOpenDialog({
+            properties: ['openFile', 'openDirectory', 'multiSelections']
+        }))
+    }
+
+
+
+    var xlsx = require("node-xlsx").remote;
+    var content = document.getElementById('content');
+    var button = document.getElementById('button');
+    var table = document.getElementById('table');
+
+    button.addEventListener('click', function(e) {
+        var list = xlsx.parse("./" + "text.xlsx");
+
+        var result = "";
+        var o = list[1];
+        if (o.name = "Sheet1") {
+            // console.log(o.data)
+            // console.log(o.data[0])
+            // console.log(o.data[0][0])
+
+            let str = "<tr>";
+            let j = 0
+            for (j = 0; j < o.data[0].length; j++) {
+                str += "<th>" + o.data[0][j] + "</th>"
+            }
+            str += "</tr>"
+            result += str;
+            str = ""
+
+            str = "<tr>";
+            j = 0
+            for (j = 0; j < o.data[1].length; j++) {
+                str += "<th>" + o.data[1][j] + "</th>"
+            }
+            str += "</tr>"
+            result += str;
+            str = ""
+
+            str = "<tr>";
+            j = 0
+            for (j = 0; j < o.data[2].length; j++) {
+                str += "<th>" + o.data[2][j] + "</th>"
+            }
+            str += "</tr>"
+            result += str;
+            str = ""
+
+            str = "<tr>";
+            j = 0
+            for (j = 0; j < o.data[3].length; j++) {
+                str += "<th>" + o.data[3][j] + "</th>"
+            }
+            str += "</tr>"
+            result += str;
+            str = ""
+
+            str = "<tr>";
+            j = 0
+            for (j = 0; j < o.data[4].length; j++) {
+                str += "<th>" + o.data[4][j] + "</th>"
+            }
+            str += "</tr>"
+            result += str;
+            str = ""
+
+            str = "<tr>";
+            j = 0
+            for (j = 0; j < o.data[5].length; j++) {
+                str += "<th>" + o.data[5][j] + "</th>"
+            }
+            str += "</tr>"
+            result += str;
+            str = ""
+
+            str = "<tr>";
+            j = 0
+            for (j = 0; j < o.data[6].length; j++) {
+                str += "<th>" + o.data[6][j] + "</th>"
+            }
+            str += "</tr>"
+            result += str;
+            str = ""
+
+        }
+
+        table.innerHTML = result;
+    });
+</script>
 
 </html>
