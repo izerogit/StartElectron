@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../styles/demo.css" />
+</head>
+
+<body>
+    <div id="app">
+        <table>
+            <thead>
+                <tr>
+                    <th v-for="d in head">
+                        {{ d }}
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-if="body>0" v-for="body in bodys">
+                    <th v-for="c in datalist[body]">
+                        {{ c }}
+                    </th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+<script src="../js/vue.js"></script>
+<script>
+    var xlsx = require("node-xlsx");
+    var fs = require('fs');
+    var excel = xlsx.parse("./" + "text.xlsx");
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            head: excel[1].data[0],
+            bodys: excel[1].data.length,
+            datalist: excel[1].data
+        }
+    })
+
+    var buffer = xlsx.build([{
+        name: 'sheet333',
+        data: excel[2].data
+    }]);
+
+    //将文件内容插入新的文件中
+    fs.writeFileSync('test1.xlsx', buffer, {
+        'flag': 'w'
+    });
+</script>
+
+</html>
